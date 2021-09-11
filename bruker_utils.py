@@ -1,6 +1,6 @@
 from pathlib import Path
 import re
-from typing import Iterable, List, Union
+from typing import FrozenSet, Iterable, List, NewType, Set, Tuple, Union
 
 
 TAGS = ['', '2', '3']
@@ -132,6 +132,48 @@ class BrukerDataset:
     @directory.setter
     def directory(self, value):
         raise RuntimeError('`directory` cannot be mutated!')
+
+    @property
+    def binary_format(self) -> str:
+        if self.dtype == 'fid':
+            params = self.get_parameters(filenames='acqus')
+            dtyp = params['DTYPA']
+            bytord = params['BYTORDA']
+        elif self.dtype == 'pdata':
+            params = self.get_parameters(filenames='procs')
+            dtyp = params['DTYPP']
+            bytord = params['BYTORDP']
+
+        return (('<' if bytord == 0 else '>') +
+                ('i4' if dtyp == 0 else 'f8'))
+
+    @binary_format.setter
+    def binary_format(self, value):
+        raise RuntimeError('`binary_format` cannot be mutated!')
+
+    def get_parameters(
+        self, filenames: Union[Iterable[str], str, None] = None
+    ) -> dict:
+        if isinstance(filenames, str):
+            filenames = [filenames]
+        elif isinstance(filenames, (list, tuple, set, frozenset)):
+            pass
+        elif filenames is None:
+            filenames = [k for k in self._paramfiles.keys()]
+        else:
+            raise TypeError('Invalid type for `filenames`.')
+
+        params = {}
+        for name in filenames:
+            try:
+                params[name] = parse_jcampdx(self._paramfiles[name])
+            except KeyError:
+                raise ValueError(
+                    f'`{name}` is an invalid filename. Valid options '
+                    f"are:\n{', '.join([k for k in self._paramfiles.keys()])}."
+                )
+
+        return next(iter(params.values())) if len(params) == 1 else params
 
     def _determine_experiment_type(self, directory: Path) -> Union[dict, None]:
         """Determine the type of Bruker data stored in ``directory``.
