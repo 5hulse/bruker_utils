@@ -64,7 +64,6 @@ def parse_jcampdx(
 
     return params
 
-
 def _isint(string: str) -> bool:
     """Determine whether ``string`` represents an integer."""
     return re.match(r'^-?\d+$', string) is not None
@@ -94,6 +93,21 @@ class BrukerDataset:
 
         self._datafile = files.pop('data')
         self._paramfiles = files
+
+    def __str__(self):
+        datatype = 'Time domain' if self.dtype == 'fid' else 'Processed data'
+        paramfiles = ','.join([k for k in self._paramfiles.keys()])
+        string = (f'<{__class__.__module__}.{__class__.__qualname__} at '
+                  f'{hex(id(self))}>\n'
+                  f'Dataset directory:   {str(self.directory)}\n'
+                  f'Dimensions:          {self.dim}\n'
+                  f'Data type:           {datatype}\n'
+                  f'Parameter filenames: {paramfiles}')
+        return string
+
+    def __repr__(self):
+        return (f'{__class__.__module__}.{__class__.__qualname__}'
+                f'(\'{str(self.directory)}\')')
 
     @property
     def dim(self) -> int:
