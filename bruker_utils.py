@@ -88,12 +88,36 @@ class BrukerDataset:
                 '{directory} does not possess the requisite files.'
             )
 
-        self.dim, self.dtype, files = \
+        self._dim, self._dtype, files = \
             [info[key] for key in ['dim', 'dtype', 'files']]
         del info
 
-        self.datafile = files.pop('data')
-        self.paramfiles = files
+        self._datafile = files.pop('data')
+        self._paramfiles = files
+
+    @property
+    def dim(self) -> int:
+        return self._dim
+
+    @dim.setter
+    def dim(self, value):
+        raise RuntimeError('`dim` cannot be mutated!')
+
+    @property
+    def dtype(self) -> str:
+        return self._dtype
+
+    @dtype.setter
+    def dtype(self, value):
+        raise RuntimeError('`dtype` cannot be mutated!')
+
+    @property
+    def directory(self) -> Path:
+        return self._datafile.parent
+
+    @directory.setter
+    def directory(self, value):
+        raise RuntimeError('`directory` cannot be mutated!')
 
     def _determine_experiment_type(self, directory: Path) -> Union[dict, None]:
         """Determine the type of Bruker data stored in ``directory``.

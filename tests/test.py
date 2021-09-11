@@ -1,4 +1,5 @@
 import pathlib
+import pytest
 from context import bruker_utils
 
 
@@ -35,7 +36,20 @@ class TestBrukerDataset:
         bruker_dataset = bruker_utils.BrukerDataset(FIDPATHS[0])
         assert bruker_dataset.dim == 1
         assert bruker_dataset.dtype == 'fid'
-        assert list(bruker_dataset.paramfiles.keys()) == ['acqus']
-        assert bruker_dataset.paramfiles['acqus'] == \
+        assert list(bruker_dataset._paramfiles.keys()) == ['acqus']
+        assert bruker_dataset._paramfiles['acqus'] == \
             FIDPATHS[0] / 'acqus'
-        assert bruker_dataset.datafile == FIDPATHS[0] / 'fid'
+        assert bruker_dataset._datafile == FIDPATHS[0] / 'fid'
+        assert bruker_dataset.directory == FIDPATHS[0]
+
+        with pytest.raises(RuntimeError) as exc_info:
+            bruker_dataset.dim = 2
+        assert str(exc_info.value) == '`dim` cannot be mutated!'
+
+        with pytest.raises(RuntimeError) as exc_info:
+            bruker_dataset.dtype = 'pdata'
+        assert str(exc_info.value) == '`dtype` cannot be mutated!'
+
+        with pytest.raises(RuntimeError) as exc_info:
+            bruker_dataset.directory = pathlib.Path().cwd().resolve()
+        assert str(exc_info.value) == '`directory` cannot be mutated!'
