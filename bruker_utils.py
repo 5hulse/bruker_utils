@@ -17,14 +17,13 @@ def parse_jcampdx(
         The path to the parameter file.
 
     convert_numerical_values
-        If ``True``, and arguments which can be converted to numerical objects
+        If ``True``, all values which can be converted to numerical objects
         (``int`` or ``float``) will be converted from ``str``.
 
     Returns
     -------
     dict
-        Parameters in file. All values are either strings or lists of strings,
-        if the attribute is stored an array of values.
+        Parameters in file.
 
     Raises
     ------

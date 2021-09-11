@@ -20,10 +20,22 @@ def test_parse_jcampdx():
     assert params['PCPD'] == [100, 60] + 8 * [100]
     # Multi-value parameters (values span multiple lines)
     assert params['PLW'] == 64 * [-1]
-    spnam = ['<gauss>', '<Gaus1.1000>', '<Gaus1_180r.1000>', '<>', '<gauss>',
-             '<gauss>', '<Squa100.1000>', '<>', '<gauss>', '<gauss>',
-             '<gauss>', '<Sinc1.1000>', '<gauss>', '<gauss>', '<>', '<>',
-             '<gauss>', '<gauss>', '<>', '<Sinc1.1000>', '<Sinc1.1000>',
-             '<Sinc1.1000>', '<Sinc1.1000>'] \
-            + 6 * ['<gauss>'] + ['<', '>', '<gauss>'] + 33 * ['<>']
+    spnam = [
+        '<gauss>', '<Gaus1.1000>', '<Gaus1_180r.1000>', '<>', '<gauss>',
+        '<gauss>', '<Squa100.1000>', '<>', '<gauss>', '<gauss>',
+        '<gauss>', '<Sinc1.1000>', '<gauss>', '<gauss>', '<>', '<>',
+        '<gauss>', '<gauss>', '<>', '<Sinc1.1000>', '<Sinc1.1000>',
+        '<Sinc1.1000>', '<Sinc1.1000>'
+    ] + 6 * ['<gauss>'] + ['<', '>', '<gauss>'] + 33 * ['<>']
     assert params['SPNAM'] == spnam
+
+
+class TestBrukerDataset:
+    def testinit(self):
+        bruker_dataset = bruker_utils.BrukerDataset(FIDPATHS[0])
+        assert bruker_dataset.dim == 1
+        assert bruker_dataset.dtype == 'fid'
+        assert list(bruker_dataset.paramfiles.keys()) == ['acqus']
+        assert bruker_dataset.paramfiles['acqus'] == \
+            FIDPATHS[0] / 'acqus'
+        assert bruker_dataset.datafile == FIDPATHS[0] / 'fid'
