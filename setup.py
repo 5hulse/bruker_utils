@@ -15,13 +15,13 @@ setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     classifiers=[
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.6',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         'Topic :: Scientific/Engineering',
     ],
     install_requires=["numpy"],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
     include_package_data=True,
     packages=find_packages(),
 )
