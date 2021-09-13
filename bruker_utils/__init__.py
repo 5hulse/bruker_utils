@@ -1,6 +1,8 @@
+import functools
 from pathlib import Path
 import re
-from typing import FrozenSet, Iterable, List, NewType, Set, Tuple, Union
+from typing import Iterable, List, Union
+import numpy as np
 
 
 TAGS = ['', '2', '3']
@@ -63,6 +65,7 @@ def parse_jcampdx(
                 params[key] = [float(v) for v in value]
 
     return params
+
 
 def _isint(string: str) -> bool:
     """Determine whether ``string`` represents an integer."""
@@ -288,3 +291,85 @@ class BrukerDataset:
             )
 
         return options
+
+    @staticmethod
+    def _complexify(data: np.ndarray) -> np.ndarray:
+        return data[::2] + 1j * data[1::2]
+
+    @staticmethod
+    def _remove_zeros(data: np.ndarray, shape: Iterable[int]) -> np.ndarray:
+        size = data.size
+        # Number of FIDs
+        fids = functools.reduce(lambda x, y: x * y, shape[:-1])
+        blocksize = size // fids
+        slicesize = blocksize - shape[-1]
+        mask = np.ones(size).astype(bool)
+        for i in range(1, fids + 1):
+            mask[(i * blocksize - slicesize):(i * blocksize)] = False
+        return data[mask]
+
+    @staticmethod
+    def _unravel_data(
+        data: np.ndarray, si: Iterable[int], xdim: Iterable[int]
+    ) -> np.ndarray:
+        newdata = np.zeros(data.shape, dtype=data.dtype)
+        blocks = [i // j for i, j in zip(si, xdim)]
+        x = 0
+        for i in range(blocks[0]):
+            for j in range(xdim[0]):
+                for k in range(blocks[1]):
+                    idx = j + (k * xdim[0]) + (i * blocks[0])
+                    newslice = slice(x * xdim[1], (x + 1) * xdim[1])
+                    oldslice = slice(idx * xdim[1], (idx + 1) * xdim[1])
+                    newdata[newslice] = data[oldslice]
+                    x += 1
+
+        return newdata
+
+    @property
+    def data(self) -> np.ndarray:
+        data = np.fromfile(self._datafile, dtype=self.binary_format)
+
+        if self.dtype == 'fid':
+            data = self._complexify(data)
+            if self.dim > 1:
+                # As digits are before characters in ASCII,
+                # This will result in a list starting from the highest dim.
+                # i.e. for 3D, list would be ['acqu3s', 'acqu2s', 'acqus']
+                files = sorted([k for k in self._paramfiles if 'acqu' in k])
+                shape = \
+                    [self.get_parameters(filenames=f)['TD'] for f in files]
+                shape[-1] //= 2
+                data = self._remove_zeros(data, shape)
+                data = data.reshape(shape)
+
+        elif self.dtype == 'pdata' and self.dim > 1:
+            files = sorted([k for k in self._paramfiles if 'proc' in k])
+            params = self.get_parameters(filenames=files)
+            shape = [p['SI'] for p in params.values()]
+            xdim = [p['XDIM'] for p in params.values()]
+            data = self._unravel_data(data, shape, xdim)
+            data = data.reshape(shape)
+            nc_proc = params['procs']['NC_proc']
+            data /= 2 ** -nc_proc
+
+        return data
+
+    @property
+    def contour(self) -> Union[Iterable[float], None]:
+        clevels = self.directory / 'clevels'
+        if not clevels.is_file():
+            print('WARNING: clevels file could not be found. None will be'
+                  'returned')
+            return None
+
+        params = parse_jcampdx(clevels)
+        maxlev = params['MAXLEV']
+        negbase = params['NEGBASE']
+        posbase = params['POSBASE']
+        negincr = params['NEGINCR']
+        posincr = params['POSINCR']
+
+        neg = [negbase * (negincr ** i) for i in range(maxlev - 1, -1, -1)]
+        pos = [posbase * (posincr ** i) for i in range(maxlev)]
+        return(neg + pos)
