@@ -328,9 +328,11 @@ class BrukerDataset:
 
     @property
     def data(self) -> np.ndarray:
-        data = np.fromfile(self._datafile, dtype=self.binary_format)
+        data = np.fromfile(self._datafile,
+                           dtype=self.binary_format).astype('float64')
 
         if self.dtype == 'fid':
+            nc = self.get_parameters(filenames='acqus')['NC']
             data = self._complexify(data)
             if self.dim > 1:
                 # As digits are before characters in ASCII,
@@ -343,20 +345,43 @@ class BrukerDataset:
                 data = self._remove_zeros(data, shape)
                 data = data.reshape(shape)
 
-        elif self.dtype == 'pdata' and self.dim > 1:
-            files = sorted([k for k in self._paramfiles if 'proc' in k])
-            params = self.get_parameters(filenames=files)
-            shape = [p['SI'] for p in params.values()]
-            xdim = [p['XDIM'] for p in params.values()]
-            data = self._unravel_data(data, shape, xdim)
-            data = data.reshape(shape)
-            nc_proc = params['procs']['NC_proc']
-            data /= 2 ** -nc_proc
+        elif self.dtype == 'pdata':
+            nc = self.get_parameters(filenames='procs')['NC_proc']
+            if self.dim > 1:
+                files = sorted([k for k in self._paramfiles if 'proc' in k])
+                params = self.get_parameters(filenames=files)
+                shape = [p['SI'] for p in params.values()]
+                xdim = [p['XDIM'] for p in params.values()]
+                data = self._unravel_data(data, shape, xdim)
+                data = data.reshape(shape)
 
-        return data
+        return data / (2 ** -nc)
+
+    def get_samples(self, pdata_unit: str = 'ppm') -> Iterable[np.ndarray]:
+        if pdata_unit not in ['ppm', 'hz']:
+            raise ValueError('`pdata_unit` should be \'ppm\' or \'hz\'.')
+
+        acqusfiles = sorted([k for k in self._paramfiles if 'acqu' in k])
+        acqusparams = self.get_parameters(filenames=acqusfiles)
+        sw = [p['SW'] for p in acqusparams.values()]
+        pts = self.data.shape
+        if self.dtype == 'fid':
+            samples = [np.linspace(0, (p - 1) / s, p) for p, s in zip(sw, pts)]
+        elif self.dtype == 'pdata':
+            offset = [p['O1'] for p in acqusparams.values()]
+            samples = [np.linspace((s / 2) + off, -(s / 2) + off, p)
+                       for p, s, off in zip(pts, sw, offset)]
+            if pdata_unit == 'ppm':
+                sfo = [p['SFO'] for p in acqusparams.values()]
+                samples = [samp / s for samp, s in zip(samples, sfo)]
+
+        if self.dim > 1:
+            return np.meshgrid(*samples, indexing='ij')
+        else:
+            return samples[0]
 
     @property
-    def contour(self) -> Union[Iterable[float], None]:
+    def contours(self) -> Union[Iterable[float], None]:
         clevels = self.directory / 'clevels'
         if not clevels.is_file():
             print('WARNING: clevels file could not be found. None will be'
@@ -372,4 +397,5 @@ class BrukerDataset:
 
         neg = [negbase * (negincr ** i) for i in range(maxlev - 1, -1, -1)]
         pos = [posbase * (posincr ** i) for i in range(maxlev)]
+
         return(neg + pos)

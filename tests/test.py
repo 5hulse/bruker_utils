@@ -1,5 +1,7 @@
 import pathlib
 import pytest
+from typing import Union
+import numpy as np
 from context import bruker_utils
 
 
@@ -7,6 +9,13 @@ DIR = pathlib.Path(__file__).resolve().parent
 FIDPATHS = [DIR / f'data/{i}' for i in range(1, 3)]
 PDATAPATHS = [fidpath / 'pdata/1' for fidpath in FIDPATHS]
 ALLPATHS = FIDPATHS + PDATAPATHS
+
+
+def sigfig(
+    value: Union[int, float, complex], sf: int
+) -> Union[int, float, complex]:
+    roundval = sf - int(np.floor(np.log10(abs(value)))) - 1
+    return np.round(value, roundval)
 
 
 def test_parse_jcampdx():
@@ -106,3 +115,29 @@ class TestBrukerDataset:
         with pytest.raises(RuntimeError) as exc_info:
             bruker_dataset.binary_format = 'blah'
         assert str(exc_info.value) == '`binary_format` cannot be mutated!'
+
+    def test_data(self):
+        bruker_dataset_fid_1d = bruker_utils.BrukerDataset(FIDPATHS[0])
+        data = bruker_dataset_fid_1d.data
+        # Check that a few random points match what is seen in TopSpin
+        assert sigfig(data[0], 4) == complex(2.550E4, 3.217E4)
+        assert sigfig(data[953], 4) == complex(-5211, -1064)
+        assert sigfig(data[3938], 4) == complex(540.6, -191.2)
+        assert data.shape == (65384 // 2,)
+
+        bruker_dataset_pdata_1d = bruker_utils.BrukerDataset(PDATAPATHS[0])
+        data = bruker_dataset_pdata_1d.data
+        assert sigfig(data[5570], 4) == 1.922E5
+        assert sigfig(data[18368], 4) == 1.642E6
+        assert sigfig(data[20970], 4) == 2.073E6
+        assert data.shape == (32768,)
+
+        # Seem to be unable to view datapoints of ser for multidimensional
+        # data! Cannot easily test 2d FID...
+
+        bruker_dataset_pdata_2d = bruker_utils.BrukerDataset(PDATAPATHS[1])
+        data = bruker_dataset_pdata_2d.data
+        assert sigfig(data[185, 332], 4) == 1.238E7
+        assert sigfig(data[870, 1672], 4) == 5.782E6
+        assert sigfig(data[419, 1244], 4) == 1.984E7
+        assert data.shape == (1024, 2048)
