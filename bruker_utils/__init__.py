@@ -25,13 +25,51 @@ def parse_jcampdx(
 
     Returns
     -------
-    dict
         Parameters in file.
 
     Raises
     ------
     ValueError
         If ``path`` does not exist in the filesystem.
+
+    Example
+    -------
+
+    .. code:: pycon
+
+        >>> import bruker_utils as butils
+        >>> path = '/path/to/.../file' # Can be relative or absolute
+        >>> params = butils.parse_jcampdx(path)
+        >>> for key, value in params.items():
+        ...     print(f'{key}:  {value}')
+        ACQT0:  -2.26890760309556
+        AMP:  [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+               100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+               100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+        AMPCOIL:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        AQSEQ:  0
+        AQ_mod:  3
+        AUNM:  <au_zg>
+        AUTOPOS:  <>
+        BF1:  500.13
+        BF2:  500.13
+        BF3:  500.13
+        BF4:  500.13
+        BF5:  500.13
+        BF6:  500.13
+        BF7:  500.13
+        BF8:  500.13
+        --snip--
+        YMAX_a:  5188289
+        YMIN_a:  -3815309
+        ZGOPTNS:  <>
+        ZL1:  120
+        ZL2:  120
+        ZL3:  120
+        ZL4:  120
+        scaledByNS:  no
+        scaledByRG:  no 
     """
     try:
         with open(path, 'r') as fh:
@@ -79,7 +117,65 @@ def _isfloat(string: str) -> bool:
 
 
 class BrukerDataset:
+    """Represenation of a Bruker Dataset.
 
+    Parameters
+    ----------
+    directory
+        Path to the directory containing the data. The following files are
+        expected to exist:
+
+        * 1D data
+
+          - Raw FID
+
+            + ``directory/fid``
+            + ``directory/acqus``
+
+          - Processed data
+
+            + ``directory/1r``
+            + ``directory/../../acqus``
+            + ``directory/procs``
+
+        * 2D data
+
+          - Raw FID
+
+            + ``directory/ser``
+            + ``directory/acqus``
+            + ``directory/acqu2s``
+
+          - Processed data
+
+            + ``directory/2rr``
+            + ``directory/../../acqus``
+            + ``directory/../../acqu2s``
+            + ``directory/procs``
+            + ``directory/proc2s``
+
+        * 3D data
+
+          - Raw FID
+
+            + ``directory/ser``
+            + ``directory/acqus``
+            + ``directory/acqu2s``
+            + ``directory/acqu3s``
+
+          - Processed data
+
+            + ``directory/3rrr``
+            + ``directory/../../acqus``
+            + ``directory/../../acqu2s``
+            + ``directory/../../acqu3s``
+            + ``directory/procs``
+            + ``directory/proc2s``
+            + ``directory/proc3s``
+
+        (Note that ``..`` denotes the parent directory of the preceeding
+        directory).
+    """
     def __init__(self, directory: str = '.') -> None:
         directory = Path(directory).resolve()
         if not directory.is_dir():
@@ -388,14 +484,18 @@ class BrukerDataset:
                   'returned')
             return None
 
-        params = parse_jcampdx(clevels)
-        maxlev = params['MAXLEV']
-        negbase = params['NEGBASE']
-        posbase = params['POSBASE']
-        negincr = params['NEGINCR']
-        posincr = params['POSINCR']
+        levels = \
+            [float(x) for x in parse_jcampdx(clevels)['LEVELS']
+             if x not in ['', '0']]
+        return levels
 
-        neg = [negbase * (negincr ** i) for i in range(maxlev - 1, -1, -1)]
-        pos = [posbase * (posincr ** i) for i in range(maxlev)]
-
-        return(neg + pos)
+        # I originally had this, but scaling seemed to be an issue...
+        # params = parse_jcampdx(clevels)
+        # maxlev = params['MAXLEV']
+        # negbase = params['NEGBASE']
+        # posbase = params['POSBASE']
+        # negincr = params['NEGINCR']
+        # posincr = params['POSINCR']
+        # neg = [negbase * (negincr ** i) for i in range(maxlev - 1, -1, -1)]
+        # pos = [posbase * (posincr ** i) for i in range(maxlev)]
+        # levels = neg + pos

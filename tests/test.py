@@ -141,3 +141,34 @@ class TestBrukerDataset:
         assert sigfig(data[870, 1672], 4) == 5.782E6
         assert sigfig(data[419, 1244], 4) == 1.984E7
         assert data.shape == (1024, 2048)
+
+    def test_samples(self):
+        bruker_dataset_fid_1d = bruker_utils.BrukerDataset(FIDPATHS[0])
+        samples = bruker_dataset_fid_1d.get_samples()
+        assert sigfig(samples[103 // 2], 3) == 0.00928
+        assert sigfig(samples[5587 // 2], 3) == 0.508
+        assert sigfig(samples[16349 // 2], 3) == 1.49
+
+        bruker_dataset_pdata_1d = bruker_utils.BrukerDataset(PDATAPATHS[0])
+        samples = bruker_dataset_pdata_1d.get_samples()
+        assert sigfig(samples[12786], 3) == 5.70
+        assert sigfig(samples[22315], 3) == 2.51
+        assert sigfig(samples[27547], 3) == 0.754
+
+        samples = bruker_dataset_pdata_1d.get_samples(pdata_unit='hz')
+        assert sigfig(samples[11938], 4) == 2995
+        assert sigfig(samples[15155], 4) == 2455
+        assert sigfig(samples[25301], 4) == 753.9
+
+        bruker_dataset_pdata_2d = bruker_utils.BrukerDataset(PDATAPATHS[1])
+        data = bruker_dataset_pdata_2d.data
+        samples = bruker_dataset_pdata_2d.get_samples()
+        contours = bruker_dataset_pdata_2d.contours
+
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        ax.contour(*samples, data, levels=contours)
+        ax.set_xlim(*reversed(ax.get_xlim()))
+        ax.set_ylim(*reversed(ax.get_ylim()))
+        plt.show()
