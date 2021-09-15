@@ -69,10 +69,10 @@ class TestBrukerDataset:
         # is returned.
         params = bruker_dataset_fid_1d.get_parameters()
         # Check a few of the same parameters as in test_parse_jcampdx
-        assert params['BYTORDA'] == 0
-        assert params['SFO1'] == 500.132249206
-        assert params['PCPD'] == [100, 60] + 8 * [100]
-        assert params['CPDPRG'] == 4 * ['<>'] + 5 * ['<mlev>']
+        assert params['acqus']['BYTORDA'] == 0
+        assert params['acqus']['SFO1'] == 500.132249206
+        assert params['acqus']['PCPD'] == [100, 60] + 8 * [100]
+        assert params['acqus']['CPDPRG'] == 4 * ['<>'] + 5 * ['<mlev>']
 
         # For 1D pdata, both acqus and procs will be present.
         bruker_dataset_pdata_1d = bruker_utils.BrukerDataset(PDATAPATHS[0])

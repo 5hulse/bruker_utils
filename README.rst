@@ -6,4 +6,7 @@
    .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
       :target: https://opensource.org/licenses/MIT
 
-Module for handling Bruker NMR data in Python
+**bruker_utils**: Module for handling Bruker NMR data in Python.
+
+This package provides a number of features to make handling Bruker NMR data
+in Python straightforward.

@@ -1,10 +1,12 @@
-##TITLE= Parameter file, TOPSPIN		Version 1.2.b.13
+##TITLE= Parameter file, TopSpin 4.0.8
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
+##NPOINTS= 4	$$ modification sequence number
 ##ORIGIN= UXNMR, Bruker Analytische Messtechnik GmbH
 ##OWNER= root
-$$ 2004-03-11 15:50:36.566 +0100  nmrsu@KASTOR
-$$ D:/Bruker/TS12b13/exp/stan/nmr/par/HCCOSW///proc2
+$$ 2021-09-14 14:48:25.273 +0100  simon@precision
+$$ /home/simon/Documents/DPhil/projects/misc/bruker_utils/tests/data/2/pdata/1/proc2
+$$ process /opt/topspin4.0.8/prog/mod/dataserver
 ##$ABSF1= 1000
 ##$ABSF2= -1000
 ##$ABSG= 5
@@ -26,6 +28,8 @@ $$ D:/Bruker/TS12b13/exp/stan/nmr/par/HCCOSW///proc2
 ##$DC= 1
 ##$DFILT= <>
 ##$DTYPP= 0
+##$F1P= 1.40064917142352
+##$F2P= 0.757054789582267
 ##$FCOR= 0.5
 ##$FT_mod= 0
 ##$GAMMA= 1
@@ -83,17 +87,3 @@ $$ D:/Bruker/TS12b13/exp/stan/nmr/par/HCCOSW///proc2
 ##$YMAX_p= 0
 ##$YMIN_p= 0
 ##END=
-##$TM2= 0.9
-
-##$TOPLEV= 0
-
-##$WDW= 4
-
-##$XDIM= 64
-
-##$YMAX_p= 0
-
-##$YMIN_p= 0
-
-##END=
-

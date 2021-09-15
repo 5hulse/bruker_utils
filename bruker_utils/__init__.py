@@ -4,6 +4,7 @@ import re
 from typing import Iterable, List, Union
 import numpy as np
 
+from ._version import __version__
 
 TAGS = ['', '2', '3']
 
@@ -64,7 +65,7 @@ def parse_jcampdx(
             elif isinstance(value, list) and all(_isfloat(v) for v in value):
                 params[key] = [float(v) for v in value]
 
-    return params
+    return dict(sorted(params.items()))
 
 
 def _isint(string: str) -> bool:
@@ -139,11 +140,11 @@ class BrukerDataset:
     @property
     def binary_format(self) -> str:
         if self.dtype == 'fid':
-            params = self.get_parameters(filenames='acqus')
+            params = self.get_parameters(filenames='acqus')['acqus']
             dtyp = params['DTYPA']
             bytord = params['BYTORDA']
         elif self.dtype == 'pdata':
-            params = self.get_parameters(filenames='procs')
+            params = self.get_parameters(filenames='procs')['procs']
             dtyp = params['DTYPP']
             bytord = params['BYTORDP']
 
@@ -176,8 +177,7 @@ class BrukerDataset:
                     f"are:\n{', '.join([k for k in self._paramfiles.keys()])}."
                 )
 
-        return next(iter(params.values())) if len(params) == 1 else params
-
+        return params
     def _determine_experiment_type(self, directory: Path) -> Union[dict, None]:
         """Determine the type of Bruker data stored in ``directory``.
 
@@ -332,7 +332,7 @@ class BrukerDataset:
                            dtype=self.binary_format).astype('float64')
 
         if self.dtype == 'fid':
-            nc = self.get_parameters(filenames='acqus')['NC']
+            nc = self.get_parameters(filenames='acqus')['acqus']['NC']
             data = self._complexify(data)
             if self.dim > 1:
                 # As digits are before characters in ASCII,
@@ -340,13 +340,13 @@ class BrukerDataset:
                 # i.e. for 3D, list would be ['acqu3s', 'acqu2s', 'acqus']
                 files = sorted([k for k in self._paramfiles if 'acqu' in k])
                 shape = \
-                    [self.get_parameters(filenames=f)['TD'] for f in files]
+                    [self.get_parameters(filenames=f)[f]['TD'] for f in files]
                 shape[-1] //= 2
                 data = self._remove_zeros(data, shape)
                 data = data.reshape(shape)
 
         elif self.dtype == 'pdata':
-            nc = self.get_parameters(filenames='procs')['NC_proc']
+            nc = self.get_parameters(filenames='procs')['procs']['NC_proc']
             if self.dim > 1:
                 files = sorted([k for k in self._paramfiles if 'proc' in k])
                 params = self.get_parameters(filenames=files)
@@ -363,20 +363,20 @@ class BrukerDataset:
 
         acqusfiles = sorted([k for k in self._paramfiles if 'acqu' in k])
         acqusparams = self.get_parameters(filenames=acqusfiles)
-        sw = [p['SW'] for p in acqusparams.values()]
+        sw = [p['SW_h'] for p in acqusparams.values()]
         pts = self.data.shape
         if self.dtype == 'fid':
-            samples = [np.linspace(0, (p - 1) / s, p) for p, s in zip(sw, pts)]
+            samples = [np.linspace(0, (p - 1) / s, p) for p, s in zip(pts, sw)]
         elif self.dtype == 'pdata':
             offset = [p['O1'] for p in acqusparams.values()]
             samples = [np.linspace((s / 2) + off, -(s / 2) + off, p)
                        for p, s, off in zip(pts, sw, offset)]
             if pdata_unit == 'ppm':
-                sfo = [p['SFO'] for p in acqusparams.values()]
+                sfo = [p['SFO1'] for p in acqusparams.values()]
                 samples = [samp / s for samp, s in zip(samples, sfo)]
 
         if self.dim > 1:
-            return np.meshgrid(*samples, indexing='ij')
+            return reversed(np.meshgrid(*samples, indexing='ij'))
         else:
             return samples[0]
 

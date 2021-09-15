@@ -1,12 +1,12 @@
 ##TITLE= Parameter file, TopSpin 4.0.8
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 1	$$ modification sequence number
+##NPOINTS= 5	$$ modification sequence number
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= sgh
-$$ 2021-07-06 11:34:20.891 +0100  sgh@spectre
-$$ /home/sgh/Documents/DPhil/projects/spectral_estimation/NMR-EsPy/tests/data/2/pdata/1/proc
-$$ process /opt/topspin4.0.8/prog/mod/proc2d
+$$ 2021-09-14 14:48:25.278 +0100  simon@precision
+$$ /home/simon/Documents/DPhil/projects/misc/bruker_utils/tests/data/2/pdata/1/proc
+$$ process /opt/topspin4.0.8/prog/mod/dataserver
 ##$ABSF1= 1000
 ##$ABSF2= -1000
 ##$ABSG= 5
@@ -36,8 +36,8 @@ $$ process /opt/topspin4.0.8/prog/mod/proc2d
 ##$DFILT= <>
 ##$DTYPP= 0
 ##$ERETIC= no
-##$F1P= 0
-##$F2P= 0
+##$F1P= 22.8638982299412
+##$F2P= 20.323465093281
 ##$FCOR= 0.5
 ##$FTSIZE= 0
 ##$FT_mod= 0
