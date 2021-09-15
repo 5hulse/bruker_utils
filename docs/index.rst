@@ -11,6 +11,7 @@ Welcome to bruker_utils's documentation!
    :caption: Contents:
 
    content/installation
+   content/usage
    content/reference
 
 Indices and tables

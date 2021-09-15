@@ -6,8 +6,6 @@ import numpy as np
 
 from ._version import __version__
 
-TAGS = ['', '2', '3']
-
 
 def parse_jcampdx(
     path: Union[Path, str], convert_numerical_values: bool = True
@@ -25,12 +23,51 @@ def parse_jcampdx(
 
     Returns
     -------
-        Parameters in file.
+    params: dict
+        Parameters in the file.
 
     Raises
     ------
     ValueError
         If ``path`` does not exist in the filesystem.
+
+    Notes
+    -----
+    There are two different parameters types which are stored in these files.
+    One is for single values, and the other is for arrayed values.
+
+    Single-valued parameters are denoted like this:
+
+    .. code:: text
+
+        ##$SW_h= 5494.50549450549
+
+    These will appear in ``params`` as follows:
+
+    .. code:: python3
+
+        params = {..., 'SW_h': 5494.50549450549, ...}
+
+    Arrayed values are denoted like this:
+
+    .. code:: text
+
+        ##$P= (0..63)
+        10.8 10.8 21.6 0 0 19.8 30 60 20000 0 0 80000 80000 0 0
+        200000 1000 2500 10000 600 2500 0 0 0 0 250 0 10.8 1000
+        1200 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+    Each value in the array is separated by either a space or a newline. The
+    values are stored in a list:
+
+    .. code:: python3
+
+        params = {...,
+         'P': [10.8, 10.8, 21.6, 0, 0, 19.8, 30, 60, 20000, 0, 0,
+               80000, 80000, 0, 0, 200000, 1000, 2500, 10000, 600,
+               2500, 0, 0, 0, 0, 250, 0, 10.8, 1000, 1200, 0, 0, 0,
+               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         ...}
 
     Example
     -------
@@ -69,7 +106,7 @@ def parse_jcampdx(
         ZL3:  120
         ZL4:  120
         scaledByNS:  no
-        scaledByRG:  no 
+        scaledByRG:  no
     """
     try:
         with open(path, 'r') as fh:
@@ -122,8 +159,11 @@ class BrukerDataset:
     Parameters
     ----------
     directory
-        Path to the directory containing the data. The following files are
-        expected to exist:
+        Path to the directory containing the data.
+
+        Different files are expected to exist, dependent on the data type you
+        are importing (note that ``..`` denotes the parent directory of the
+        preceeding directory):
 
         * 1D data
 
@@ -173,8 +213,14 @@ class BrukerDataset:
             + ``directory/proc2s``
             + ``directory/proc3s``
 
-        (Note that ``..`` denotes the parent directory of the preceeding
-        directory).
+    Raises
+    ------
+    IOError
+        If ``directory`` doesn't exist.
+
+    ValueError
+        If ``directory`` does not contain the files expected of a
+        Bruker dataset. See the description of the class for details.
     """
     def __init__(self, directory: str = '.') -> None:
         directory = Path(directory).resolve()
@@ -211,6 +257,7 @@ class BrukerDataset:
 
     @property
     def dim(self) -> int:
+        """The number of experiment dimensions."""
         return self._dim
 
     @dim.setter
@@ -219,6 +266,10 @@ class BrukerDataset:
 
     @property
     def dtype(self) -> str:
+        """Return the type of data.
+
+        Will be either ``'fid'`` or ``'pdata'``.
+        """
         return self._dtype
 
     @dtype.setter
@@ -227,6 +278,7 @@ class BrukerDataset:
 
     @property
     def directory(self) -> Path:
+        """Return the full path to the data directory."""
         return self._datafile.parent
 
     @directory.setter
@@ -235,6 +287,15 @@ class BrukerDataset:
 
     @property
     def binary_format(self) -> str:
+        """Return the format of the binary datafiles.
+
+        Four possibilities:
+
+        * ``'<i4'`` - Little endian, 32-bit integer.
+        * ``'>i4'`` - Big endian, 32-bit integer.
+        * ``'<f8'`` - Little endian, 64-bit float.
+        * ``'>f8'`` - Big endian, 64-bit float.
+        """
         if self.dtype == 'fid':
             params = self.get_parameters(filenames='acqus')['acqus']
             dtyp = params['DTYPA']
@@ -251,9 +312,56 @@ class BrukerDataset:
     def binary_format(self, value):
         raise RuntimeError('`binary_format` cannot be mutated!')
 
+    @property
+    def valid_parameter_filenames(self) -> List[str]:
+        """Return a list of parameter filenames.
+
+        The elements are a complete set of the valid strings for the
+        ``filenames`` argument in :py:meth:`get_parameters`.
+        """
+        match = re.search(r'filenames: (.+?)$', self.__str__())
+        return match.group(1).split(',')
+
     def get_parameters(
         self, filenames: Union[Iterable[str], str, None] = None
     ) -> dict:
+        """Return parameters found in ``filenames``.
+
+        Parameters
+        ----------
+        filenames
+            Files to extract parameters from. If this is set to ``None``,
+            all valid files will be read.
+
+        Returns
+        -------
+        params: dict
+            A dictionary containing the parameters of each file in
+            sub-dictionaries.
+
+        Raises
+        ------
+        TypeError
+            If ``filenames`` has an invalid type. It should be ``None``, a
+            ``str``, or an iterable object (``list``, ``tuple``, ``set``,
+            etc.) of ``str`` objects.
+
+        ValueError
+            If at least one value in ``filenames`` is invalid.
+
+        Notes
+        -----
+        To determine the list of valid names for ``filenames``, you can
+        use :py:meth:`valid_parameter_filenames`:
+
+        .. code:: pycon
+
+            >>> import bruker_utils as butils
+            >>> # This is a 2-dimensional processed dataset
+            >>> dataset = butils.BrukerDataset(<path>)
+            >>> print(dataset.valid_parameter_filenames)
+            ['acqus', 'acqu2s', 'procs', 'proc2s']
+        """
         if isinstance(filenames, str):
             filenames = [filenames]
         elif isinstance(filenames, (list, tuple, set, frozenset)):
@@ -274,17 +382,18 @@ class BrukerDataset:
                 )
 
         return params
+
     def _determine_experiment_type(self, directory: Path) -> Union[dict, None]:
         """Determine the type of Bruker data stored in ``directory``.
 
-        This function is used to determine
+        This function is used to determine:
 
         a) whether the specified data is time-domain or pdata
         b) the dimension of the data (checks up to 3D).
 
-        If the data satisfies the required criteria for a particular dataset
-        type, a dictionary of information will be returned. Otherwise,
-        ``None`` will be returned.
+        If the data satisfies the required criteria for a particular
+        experiment type, a dictionary of information will be returned.
+        Otherwise, ``None`` will be returned.
 
         Parameters
         ----------
@@ -293,13 +402,14 @@ class BrukerDataset:
 
         Returns
         -------
-        Dictionary with the entries:
+        exptype: Union[dict, None]
+            Dictionary with the entries:
 
-        * ``'dim'`` (``int``) The dimension of the data.
-        * ``'dtype'`` (``'fid'`` or ``'pdata'``) The type of data (raw
-          time-domain or pdata).
-        * ``'files'`` (``List[pathlib.Path]``) Paths to data and parameter
-          files.
+            * ``'dim'`` (``int``) The dimension of the data.
+            * ``'dtype'`` (``'fid'`` or ``'pdata'``) The type of data (raw
+              time-domain or pdata).
+            * ``'files'`` (``List[pathlib.Path]``) Paths to data and parameter
+              files.
         """
         for option in self._compile_experiment_options(directory):
             files = option['files'].values()
@@ -315,6 +425,11 @@ class BrukerDataset:
         ----------
         files
             File paths to check.
+
+        Returns
+        -------
+        allexist: bool
+            ``True`` is all paths exist, ``False`` if not.
         """
         return all([f.is_file() for f in files])
 
@@ -322,21 +437,31 @@ class BrukerDataset:
     def _compile_experiment_options(directory: Path) -> List[dict]:
         """Generate information dictionaries for different experiment types.
 
-        Compiles dictionaries of information relavent to each experiment type:
+        Compiles dictionaries of information relavent to each experiment type.
 
-        * ``'files'`` - The expected paths to data and parameter files.
-        * ``'dim'`` - The data dimension.
-        * ``'dtype'`` - The type of data (time-domain or pdata).
 
         Parameters
         ----------
         directory
             Path to the directory of interest.
+
+        Returns
+        -------
+        options: List[dict]
+            Infomation relating to each experiment option. Each item
+            is a dictionary with the following entires:
+
+            * ``'files'`` - The expected paths to data and parameter files.
+            * ``'dim'`` - The data dimension.
+            * ``'dtype'`` - The type of data (time-domain or pdata).
         """
         twoback = directory.parents[1]
         options = []
-        for i in range(1, 4):
-            acqusnames = [f'acqu{x}s' for x in TAGS[:i]]
+        tags = ['', '2', '3']
+        # Start from higher dim datasets. A 2D FID dataset's files
+        # are a subset of a 3D FID dataset's (ser, acqus, acqu2s).
+        for i in range(3, 0, -1):
+            acqusnames = [f'acqu{x}s' for x in tags[:i]]
             acqusfiles = {
                 name: path for (name, path) in
                 zip(
@@ -364,7 +489,7 @@ class BrukerDataset:
                     (twoback / path.name for path in acqusfiles.values())
                 )
             }
-            procsnames = [f'proc{x}s' for x in TAGS[:i]]
+            procsnames = [f'proc{x}s' for x in tags[:i]]
             procsfiles = {
                 name: path for (name, path) in
                 zip(
@@ -390,10 +515,50 @@ class BrukerDataset:
 
     @staticmethod
     def _complexify(data: np.ndarray) -> np.ndarray:
+        """Make time-domain data complex.
+
+        Parameters
+        ----------
+        data
+            Data to be converted to complex form.
+
+        Returns
+        -------
+        complex_data: numpy.ndarray
+            Complex data.
+
+            Complex data is stored in the form
+            ``[re[0], im[0], re[1], im[1], ...]``, This function takes an
+            input with shape ``(2N,)`` and returns
+            ``[re[0] + im[0]j, re[1] + im[1]j, ...]`` with shape ``(N,)``.
+            """
         return data[::2] + 1j * data[1::2]
 
     @staticmethod
     def _remove_zeros(data: np.ndarray, shape: Iterable[int]) -> np.ndarray:
+        """Strip zeros from data.
+
+        Bruker ensures that each stored FID takes up a multiple of 1024 bytes
+        of storage, even if ``TD`` is not a multiple of 256 (each datapoint
+        takes either 4 or 8 bytes of space). To do this, each FID is padded
+        with zeros. This function determines the number of trailing zeros
+        and removes them.
+
+        Parameters
+        ----------
+        data
+            Data to be treated. This should be a one-dimensional array with
+            the number of elements matching the product of the elements in
+            ``shape``.
+
+        shape
+            The expected shape of the data.
+
+        Returns
+        -------
+        zeroless_data: numpy.ndarray
+            Data with padded zeros removed.
+        """
         size = data.size
         # Number of FIDs
         fids = functools.reduce(lambda x, y: x * y, shape[:-1])
@@ -405,9 +570,35 @@ class BrukerDataset:
         return data[mask]
 
     @staticmethod
-    def _unravel_data(
+    def _repartition_data(
         data: np.ndarray, si: Iterable[int], xdim: Iterable[int]
     ) -> np.ndarray:
+        """Correctly reorganise partitioned data.
+
+        Some data (typically older data) is stored in `sub-matrix` format,
+        such that chucnks of the data are partitioned into smaller blocks.
+        The ``XDIM`` parameters in the ``procs`` files dictate the size of
+        each partition. This function takes in partitioned data and
+        re-arranges it to the correct order.
+
+        Parameters
+        ----------
+        data
+            Data to be repartitioned. This should be a one-dimensional array
+            with the number of elements matching the product of the elements
+            in ``shape``.
+
+        si
+            The expected shapoe of the data.
+
+        xdim
+            The size of partitions in each dimension.
+
+        Returns
+        -------
+        repartitioned_data: numpy.ndarray
+            Correctly repartitioned data.
+        """
         newdata = np.zeros(data.shape, dtype=data.dtype)
         blocks = [i // j for i, j in zip(si, xdim)]
         x = 0
@@ -424,6 +615,7 @@ class BrukerDataset:
 
     @property
     def data(self) -> np.ndarray:
+        """Return the data."""
         data = np.fromfile(self._datafile,
                            dtype=self.binary_format).astype('float64')
 
@@ -448,12 +640,47 @@ class BrukerDataset:
                 params = self.get_parameters(filenames=files)
                 shape = [p['SI'] for p in params.values()]
                 xdim = [p['XDIM'] for p in params.values()]
-                data = self._unravel_data(data, shape, xdim)
+                data = self._repartition_data(data, shape, xdim)
                 data = data.reshape(shape)
 
         return data / (2 ** -nc)
 
-    def get_samples(self, pdata_unit: str = 'ppm') -> Iterable[np.ndarray]:
+    def get_samples(
+        self, pdata_unit: str = 'ppm', meshgrid: bool = True
+    ) -> Iterable[np.ndarray]:
+        """Return the points at which the data is sampled.
+
+        For time-domain data, this will return the timepoints at which the
+        FID was sampeld. For processed data, this will return the chemical
+        shifts.
+
+        Parameters
+        ----------
+        pdata_unit
+            The unit to expressed the chemical shifts if, if the dataset
+            corresponds to processed data. Valid options are ``'ppm'`` or
+            ``'hz'``.
+
+        meshgrid
+            If ``True``, samples for multidimensional experiments will be
+            arrayed using
+            `numpy.meshgrid <https://numpy.org/doc/stable/reference/\
+                    generated/numpy.meshgrid.html>`_.
+
+        Returns
+        -------
+        samples: Iterable[np.ndarray]
+            The samples in each dimension.
+
+        Notes
+        -----
+        For data with more than 1 dimension, the returned object is a list
+        of arrays with the same shape as the data, formed by using
+        `numpy.meshgrid
+        <https://numpy.org/doc/stable/reference/generated/\
+                numpy.meshgrid.html>`_,
+        making the output very convienient for plotting pourposes.
+        """
         if pdata_unit not in ['ppm', 'hz']:
             raise ValueError('`pdata_unit` should be \'ppm\' or \'hz\'.')
 
@@ -471,13 +698,19 @@ class BrukerDataset:
                 sfo = [p['SFO1'] for p in acqusparams.values()]
                 samples = [samp / s for samp, s in zip(samples, sfo)]
 
-        if self.dim > 1:
-            return reversed(np.meshgrid(*samples, indexing='ij'))
-        else:
-            return samples[0]
+        if self.dim > 1 and meshgrid:
+            samples = np.meshgrid(*samples, indexing='ij')
+
+        return list(reversed(samples))
 
     @property
     def contours(self) -> Union[Iterable[float], None]:
+        """Return a stored list of contour levels.
+
+        For multidimensional processed datasets, the file ``clevels`` is
+        searched for, and if found, the contour levels stated in it are
+        returned. If ``clevels`` could not be found, ``None`` is returned.
+        """
         clevels = self.directory / 'clevels'
         if not clevels.is_file():
             print('WARNING: clevels file could not be found. None will be'
