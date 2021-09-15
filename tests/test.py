@@ -163,9 +163,3 @@ class TestBrukerDataset:
         bruker_dataset_pdata_2d = bruker_utils.BrukerDataset(PDATAPATHS[1])
         data = bruker_dataset_pdata_2d.data
         samples = bruker_dataset_pdata_2d.get_samples()
-
-        import matplotlib.pyplot as plt
-        fig = plt.figure()
-        ax = fig.add_subplot()
-        ax.contour(*samples, data)
-        plt.show()
