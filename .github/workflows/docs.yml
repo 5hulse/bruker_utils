@@ -1,0 +1,50 @@
+name: docs 
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          path: main
+
+      - name: Set up python3.6 
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6 
+
+      - name: install dependencies
+        run: |
+          cd main
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install .
+
+      - name: build docs
+        run: |
+          cd main/docs/
+          sphinx-build -b html . html
+
+      - name: checkout gh-pages branch
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+      
+      - name: Update gh-pages 
+        run:
+          cd gh-pages
+          cp -r ../main/docs/html/* .
+          touch .nojekyll
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "<>"
+          git add -A
+          git commit -m "Update documentation" || true
+          git push
