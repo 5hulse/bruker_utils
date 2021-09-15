@@ -39,7 +39,7 @@ jobs:
           path: gh-pages
       
       - name: Update gh-pages 
-        run:
+        run: |
           cd gh-pages
           cp -r ../main/docs/html/* .
           touch .nojekyll
