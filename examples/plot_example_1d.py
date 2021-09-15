@@ -23,7 +23,7 @@ line = ax.plot(shifts, spectrum, color='k', lw=0.8)
 # The x-axis is set to be scending going from left to right
 # which is the opposite to NMR convention!
 # We need to flip it:
-ax.set_xlim(*reversed(ax.get_xlim()))
+ax.set_xlim(reversed(ax.get_xlim()))
 ax.set_xlabel('$^{1}$H (ppm)')
 
 ax.set_xticks(range(10, -2, -1))
@@ -31,4 +31,4 @@ ax.set_xticks(range(10, -2, -1))
 ax.set_yticks([])
 
 # Save the figure to your preferred format
-fig.savefig('spectrum_1d.pdf')
+fig.savefig('spectrum_1d.png', dpi=400)

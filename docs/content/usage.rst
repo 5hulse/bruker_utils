@@ -5,8 +5,8 @@ The purpose of bruker_utils is to make it convienient to work with Bruker NMR
 data with Python. On this page is an outline of how to use the available
 features.
 
-The :py:class:`BrukerDataset <bruker_utils.BrukerDataset>` class
-----------------------------------------------------------------
+The ``BrukerDataset`` class
+---------------------------
 
 Importing a dataset
 ^^^^^^^^^^^^^^^^^^^
@@ -163,7 +163,7 @@ are interesed in parameters from a particular file, you can you the
     The experiment sweep width was 5494.5055Hz
 
 For a full list of valid file names, you can use
-:py:meth:`~bruker_utils.BrukerDataset.valid_parameter_filenames`:
+:py:attr:`~bruker_utils.BrukerDataset.valid_parameter_filenames`:
 
 .. code:: pycon
 
@@ -176,7 +176,7 @@ Accessing the Data
 `I am working with a 1D processed dataset in the following section.`
 
 The data can be obtained in `NumPy <https:\\numpy.org>`_ format, using
-the :py:meth:`~bruker_utils.BrukerDataset.data` property:
+the :py:attr:`~bruker_utils.BrukerDataset.data` property:
 
 .. code:: pycon
 
@@ -237,9 +237,57 @@ Advice for Plotting Data
 
 Plotting nice figures of NMR data is very simple with the help of
 bruker_utils, if you are familiar with `matplotlib <https:\\matplotlib.org>`_.
-Here is an outline of the basic steps needed to create a plot.
+Below are some examples for inspiration.
+
+`You will have to install matplotlib separately for these examples.
+Running` ``python -m pip install matplotlib`` `should suffice.`
 
 1D Example
 ^^^^^^^^^^
 
+Lets write a script which will import 1D processed data, and plot it against
+its chemical shifts. Key features to note in this script are:
 
+* The spectrum is simply obtained using the
+  :py:attr:`~bruker_utils.BrukerDataset.data` property.
+* The shifts are acquired using the
+  :py:meth:`~bruker_utils.BrukerDataset.get_samples` method.
+* As the NMR convention of having chemical shifts go from high to low from left
+  to right is in conflict with the convention of matplotlib to go from low
+  to high from left to right, we need to manually reverse the axis limits
+  (Line 26).
+
+.. literalinclude:: ../../examples/plot_example_1d.py
+    :language: python3
+    :linenos:
+
+.. image:: ../../examples/figures/spectrum_1d.png
+
+2D Example
+^^^^^^^^^^
+
+Now for an example of a contour for a two-dimensional experiment. Key features
+here:
+
+* By using :py:meth:`~bruker_utils.BrukerDataset.get_samples` with
+  ``meshgrid`` set to ``True`` (default), the ``shifts`` is already in the
+  form required for plotting. It simply needs to be
+  `unpacked <https://docs.python.org/3/tutorial/
+  controlflow.html#unpacking-argument-lists>`_
+  as the first argument in ``ax.contour`` (Line 33).
+* A list of contour levels is stored with this dataset in the file
+  ``data/2/pdata/1/clevels``. These can be obtained using the
+  :py:attr:`~bruker_utils.BrukerDataset.contours` property (Line 24).
+* In this example, this nuclei in each dimension were determined from the
+  ``NUC1`` parameters in ``acqus`` and ``acqu2s``. These are denoted as
+  ``<{number}{symbol}>``, where ``number`` is the isotope mass number, and
+  ``symbol`` is the element symbol. The ``format_nucleus`` function is then
+  used to extract the isotope mass and symbol using a
+  `regular expression <https://docs.python.org/3/howto/regex.html>`_, leading
+  to nicely-formatted axis labels.
+
+.. literalinclude:: ../../examples/plot_example_2d.py
+    :language: python3
+    :linenos:
+
+.. image:: ../../examples/figures/spectrum_2d.png

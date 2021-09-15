@@ -54,4 +54,4 @@ ax.set_xlabel(f'{format_nucleus(xnuc)} (ppm)')
 ax.set_ylabel(f'{format_nucleus(ynuc)} (ppm)')
 
 # Save the figure to your preferred format
-fig.savefig('spectrum_2d.pdf')
+fig.savefig('spectrum_2d.png', dpi=400)

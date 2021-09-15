@@ -6,17 +6,14 @@
 Welcome to bruker_utils's documentation!
 ========================================
 
+To get up-and-running, first get the package :ref:`installed<Installation>`,
+and then read the :ref:`user guide<Using bruker_utils>`. If you would like
+to dive deeper, check out the :ref:`reference<Reference>`, or the
+`source code <https://github.com/5hulse/bruker_utils>`_
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :hidden:
 
-   content/installation
-   content/usage
-   content/reference
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    content/installation
+    content/usage
+    content/reference
