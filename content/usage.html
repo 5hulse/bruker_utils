@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Using bruker_utils &#8212; bruker_utils  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="reference.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="using-bruker-utils">
+<h1>Using bruker_utils<a class="headerlink" href="#using-bruker-utils" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of bruker_utils is to make it convienient to work with Bruker NMR
+data with Python. On this page is an outline of how to use the available
+features.</p>
+<section id="the-brukerdataset-class">
+<h2>The <code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> class<a class="headerlink" href="#the-brukerdataset-class" title="Permalink to this headline">¶</a></h2>
+<section id="importing-a-dataset">
+<h3>Importing a dataset<a class="headerlink" href="#importing-a-dataset" title="Permalink to this headline">¶</a></h3>
+<p>To import a dataset, you can do the following:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bruker_utils</span> <span class="kn">import</span> <span class="n">BrukerDataset</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can see basic information about the dataset by printing it:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="go">&lt;bruker_utils.BrukerDataset at 0x7f60f6d2b780&gt;</span>
+<span class="go">Dataset directory:   /home/simon/data/1</span>
+<span class="go">Dimensions:          1</span>
+<span class="go">Data type:           Time domain</span>
+<span class="go">Parameter filenames: acqus</span>
+</pre></div>
+</div>
+<p>We see the absolute path to the directory given,
+the number of dimensions the experiment has, the type of data, and the
+names of associated parameter files.</p>
+<p>The type of data can be either raw time-domain data (i.e. to raw output from
+the spectrometer), or processed spectral data.</p>
+</section>
+<section id="directory-requirements">
+<h3>Directory requirements<a class="headerlink" href="#directory-requirements" title="Permalink to this headline">¶</a></h3>
+<p>If you wish to work with the time-domain data, the path you supply to
+<code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> should contain the raw data file. This file will be called
+either <code class="docutils literal notranslate"><span class="pre">fid</span></code> or <code class="docutils literal notranslate"><span class="pre">ser</span></code>, depending on the number of dimensions in your
+experiment.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/data/1: ls
+.rw-rw-r-- 8.9k simon 11 Sep 12:53 acqu
+.rw-rw-r-- 9.3k simon 11 Sep 12:53 acqus
+.rw-rw-r-- 1.1k simon 11 Sep 12:53 audita.txt
+.rw-rw-r--  45k simon 11 Sep 12:53 cyclosporina.pdb
+.rw-rw-r-- 261k simon 11 Sep 12:53 fid &lt;-- Here is the file we need!
+.rw-rw-r-- 2.5k simon 11 Sep 12:53 format.temp
+drwxrwxr-x    - simon 11 Sep 12:53 pdata
+.rw-rw-r-- 1.9k simon 11 Sep 12:53 pulseprogram
+.rw-rw-r--  495 simon 11 Sep 12:53 scon2
+.rw-rw-r--  18k simon 11 Sep 12:53 uxnmr.par
+</pre></div>
+</div>
+<p>To work with processed data, the path should contain the processed data file.
+This will be one of <code class="docutils literal notranslate"><span class="pre">1r</span></code>, <code class="docutils literal notranslate"><span class="pre">2rr</span></code>, or <code class="docutils literal notranslate"><span class="pre">3rrr</span></code>, depending on the number
+of dimensions in the experiment (bruker_utils only supports up to 3D data
+currently I’m afraid).</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>~/data/1$ cd pdata/1
+~/data/1/pdata/1$ ls
+.rw-rw-r-- 131k simon 11 Sep 12:53 1i
+.rw-rw-r-- 131k simon 11 Sep 12:53 1r &lt;-- Here is the file we need!
+.rw-rw-r-- 1.9k simon 11 Sep 12:53 auditp.txt
+.rw-rw-r--  770 simon 11 Sep 12:53 cmcq
+.rw-rw-r--  538 simon 11 Sep 12:53 outd
+.rw-rw-r-- 1.4k simon 11 Sep 12:53 parm.txt
+.rw-rw-r-- 2.2k simon 11 Sep 12:53 proc
+.rw-rw-r-- 2.2k simon 11 Sep 12:53 procs
+.rw-rw-r-- 2.8k simon 11 Sep 12:53 thumb.png
+.rw-rw-r--   14 simon 11 Sep 12:53 title
+</pre></div>
+</div>
+<p>On top of the need for a valid datafile, the directory specified should also
+have certain acquisition and processing parameter files associated with it.
+For each type of experiment,
+the complete list of expected files can be found in the documentation for
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset" title="bruker_utils.BrukerDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrukerDataset</span></code></a>, under the section
+<cite>Parameters</cite>.</p>
+<p>In the example above, time-domain data was imported, and as shown, there is
+processed data associated with it in the directory <code class="docutils literal notranslate"><span class="pre">data/1/pdata/1</span></code>.
+We can therefore import it as follows:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1/pdata/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<span class="go">&lt;bruker_utils.BrukerDataset at 0x7f60f6d37da0&gt;</span>
+<span class="go">Dataset directory:   /home/simon/data/1/pdata/1</span>
+<span class="go">Dimensions:          1</span>
+<span class="go">Data type:           Processed data</span>
+<span class="go">Parameter filenames: acqus,procs</span>
+</pre></div>
+</div>
+</section>
+<section id="accessing-parameters">
+<h3>Accessing Parameters<a class="headerlink" href="#accessing-parameters" title="Permalink to this headline">¶</a></h3>
+<p><cite>I am working with a 1D processed dataset in the following section.</cite></p>
+<p>Parameters can be parsed from <code class="docutils literal notranslate"><span class="pre">acqus</span></code> and <code class="docutils literal notranslate"><span class="pre">procs</span></code> files using the
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_parameters" title="bruker_utils.BrukerDataset.get_parameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_parameters()</span></code></a> method. A dictionary
+is returned with entries associated with each parameter file:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">acqus</span>
+<span class="go">procs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;acqus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> --&gt; </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">ACQT0 --&gt; -2.26890760309556</span>
+<span class="go">AMP --&gt; [100, 100, 100, 100, 100, 100, 100, 100,</span>
+<span class="go">100, 100, 100, 100, 100, 100, 100, 100, 100, 100,</span>
+<span class="go">100, 100, 100, 100, 100, 100, 100, 100, 100, 100,</span>
+<span class="go">100, 100, 100, 100]</span>
+<span class="go">AMPCOIL --&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">0, 0, 0, 0]</span>
+<span class="go">AQSEQ --&gt; 0</span>
+<span class="go">AQ_mod --&gt; 3</span>
+<span class="go">AUNM --&gt; &lt;au_zg&gt;</span>
+<span class="go">AUTOPOS --&gt; &lt;&gt;</span>
+<span class="go">BF1 --&gt; 500.13</span>
+<span class="go">BF2 --&gt; 500.13</span>
+<span class="go">BF3 --&gt; 500.13</span>
+<span class="go">BF4 --&gt; 500.13</span>
+<span class="go">BF5 --&gt; 500.13</span>
+<span class="go">BF6 --&gt; 500.13</span>
+<span class="go">BF7 --&gt; 500.13</span>
+<span class="go">BF8 --&gt; 500.13</span>
+<span class="go">--snip--</span>
+<span class="go">ZL2 --&gt; 120</span>
+<span class="go">ZL3 --&gt; 120</span>
+<span class="go">ZL4 --&gt; 120</span>
+<span class="go">scaledByNS --&gt; no</span>
+<span class="go">scaledByRG --&gt; no</span>
+</pre></div>
+</div>
+<p>By default, the parameters from all relavent files are returned. If you
+are interesed in parameters from a particular file, you can you the
+<code class="docutils literal notranslate"><span class="pre">filenames</span></code> argument:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="s1">&#39;acqus&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Only one item with the key &#39;acqus&#39; should exist</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">acqus</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sw</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;acqus&#39;</span><span class="p">][</span><span class="s1">&#39;SW_h&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The experiment sweep width was </span><span class="si">{</span><span class="n">sw</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">Hz&#39;</span><span class="p">)</span>
+<span class="go">The experiment sweep width was 5494.5055Hz</span>
+</pre></div>
+</div>
+<p>For a full list of valid file names, you can use
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.valid_parameter_filenames" title="bruker_utils.BrukerDataset.valid_parameter_filenames"><code class="xref py py-attr docutils literal notranslate"><span class="pre">valid_parameter_filenames</span></code></a>:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span><span class="o">.</span><span class="n">valid_parameter_filenames</span>
+<span class="go">[&#39;acqus&#39;, &#39;procs&#39;]</span>
+</pre></div>
+</div>
+</section>
+<section id="accessing-the-data">
+<h3>Accessing the Data<a class="headerlink" href="#accessing-the-data" title="Permalink to this headline">¶</a></h3>
+<p><cite>I am working with a 1D processed dataset in the following section.</cite></p>
+<p>The data can be obtained in <a class="reference external" href="https:\numpy.org">NumPy</a> format, using
+the <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.data" title="bruker_utils.BrukerDataset.data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data</span></code></a> property:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">(32768,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">[&lt;matplotlib.lines.Line2D object at 0x7fb5aa2c4a90&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/simple_spectrum.png" src="../_images/simple_spectrum.png" />
+</section>
+<section id="accessing-chemical-shifts-timepoints">
+<h3>Accessing Chemical Shifts/Timepoints<a class="headerlink" href="#accessing-chemical-shifts-timepoints" title="Permalink to this headline">¶</a></h3>
+<p>To obtain chemical shifts for processed data, or timepoints for time-domain
+data, use the <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_samples" title="bruker_utils.BrukerDataset.get_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_samples()</span></code></a> method:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">bruker_utils</span> <span class="k">as</span> <span class="nn">butils</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1d time-domain data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fid_1d</span> <span class="o">=</span> <span class="n">butils</span><span class="o">.</span><span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fid_1d</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="go">[array([0.000000e+00, 1.820000e-04, 3.640000e-04, ..., 5.949398e+00,</span>
+<span class="go">       5.949580e+00, 5.949762e+00])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 1d processed data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdata_1d</span> <span class="o">=</span> <span class="n">butils</span><span class="o">.</span><span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1/pdata/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdata</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">meshgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdata_1d</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="go">[array([ 9.99027508,  9.9899398 ,  9.98960452, ..., -0.99515954,</span>
+<span class="go">       -0.99549482, -0.9958301 ])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 2d time-domain data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fid_2d</span> <span class="o">=</span> <span class="n">butils</span><span class="o">.</span><span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fid_2d</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">meshgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># more on meshgrid later...</span>
+<span class="go">[array([0.00000e+00, 4.88000e-05, 9.76000e-05, ..., 9.72096e-02,</span>
+<span class="go">       9.72584e-02, 9.73072e-02]), array([0.       , 0.0001966,</span>
+<span class="go">       0.0003932, ..., 0.024575 , 0.0247716, 0.0249682])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># 2d processed data</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdata_2d</span> <span class="o">=</span> <span class="n">butils</span><span class="o">.</span><span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/2/pdata/1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdata_2d</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">meshgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[array([154.23232066, 154.15272382, 154.07312698, ...,  -8.54322199,</span>
+<span class="go">        -8.62281884,  -8.70241568]), array([ 9.66018073,  9.65023914,</span>
+<span class="go">        9.64029755, ..., -0.49018526, -0.50012685, -0.51006844])]</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">meshgrid</span></code> argument for N-dimensional data takes the samples for
+each dimension and creates N-dimensional grids to create co-ordinate
+matrices. This is very useful when it comes to plotting multidimensional
+signals. <strong>Note that by default this is set to</strong> <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</section>
+</section>
+<section id="advice-for-plotting-data">
+<h2>Advice for Plotting Data<a class="headerlink" href="#advice-for-plotting-data" title="Permalink to this headline">¶</a></h2>
+<p>Plotting nice figures of NMR data is very simple with the help of
+bruker_utils, if you are familiar with <a class="reference external" href="https:\matplotlib.org">matplotlib</a>.
+Below are some examples for inspiration.</p>
+<p><cite>You will have to install matplotlib separately for these examples.
+Running</cite> <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matplotlib</span></code> <cite>should suffice.</cite></p>
+<section id="d-example">
+<h3>1D Example<a class="headerlink" href="#d-example" title="Permalink to this headline">¶</a></h3>
+<p>Lets write a script which will import 1D processed data, and plot it against
+its chemical shifts. Key features to note in this script are:</p>
+<ul class="simple">
+<li><p>The spectrum is simply obtained using the
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.data" title="bruker_utils.BrukerDataset.data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data</span></code></a> property.</p></li>
+<li><p>The shifts are acquired using the
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_samples" title="bruker_utils.BrukerDataset.get_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_samples()</span></code></a> method.</p></li>
+<li><p>As the NMR convention of having chemical shifts go from high to low from left
+to right is in conflict with the convention of matplotlib to go from low
+to high from left to right, we need to manually reverse the axis limits
+(Line 26).</p></li>
+</ul>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">bruker_utils</span> <span class="kn">import</span> <span class="n">BrukerDataset</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="c1"># Make font smaller</span>
+<span class="linenos"> 7</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+<span class="linenos"> 8</span><span class="n">mpl</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1/pdata/1&#39;</span><span class="p">)</span>
+<span class="linenos">11</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">data</span>
+<span class="linenos">12</span><span class="c1"># Note that get_samples always returns a list, even</span>
+<span class="linenos">13</span><span class="c1"># for 1D data, so we need to unpack it.</span>
+<span class="linenos">14</span><span class="n">shifts</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="c1"># Create a figure and axes</span>
+<span class="linenos">17</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="linenos">18</span><span class="c1"># list elements are figure co-ordinates for:</span>
+<span class="linenos">19</span><span class="c1"># [left, bottom, width, height]</span>
+<span class="linenos">20</span><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.94</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">])</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="n">line</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">shifts</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="linenos">23</span><span class="c1"># The x-axis is set to be scending going from left to right</span>
+<span class="linenos">24</span><span class="c1"># which is the opposite to NMR convention!</span>
+<span class="linenos">25</span><span class="c1"># We need to flip it:</span>
+<span class="linenos">26</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()))</span>
+<span class="linenos">27</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$^</span><span class="si">{1}</span><span class="s1">$H (ppm)&#39;</span><span class="p">)</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="linenos">30</span><span class="c1"># Don&#39;t normally show values along the y-axis</span>
+<span class="linenos">31</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="c1"># Save the figure to your preferred format</span>
+<span class="linenos">34</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;spectrum_1d.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/spectrum_1d.png" src="../_images/spectrum_1d.png" />
+</section>
+<section id="id1">
+<h3>2D Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Now for an example of a contour for a two-dimensional experiment. Key features
+here:</p>
+<ul class="simple">
+<li><p>By using <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_samples" title="bruker_utils.BrukerDataset.get_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_samples()</span></code></a> with
+<code class="docutils literal notranslate"><span class="pre">meshgrid</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code> (default), the <code class="docutils literal notranslate"><span class="pre">shifts</span></code> is already in the
+form required for plotting. It simply needs to be
+<a class="reference external" href="https://docs.python.org/3/tutorial/controlflow.html#unpacking-argument-lists">unpacked</a>
+as the first argument in <code class="docutils literal notranslate"><span class="pre">ax.contour</span></code> (Line 33).</p></li>
+<li><p>A list of contour levels is stored with this dataset in the file
+<code class="docutils literal notranslate"><span class="pre">data/2/pdata/1/clevels</span></code>. These can be obtained using the
+<a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.contours" title="bruker_utils.BrukerDataset.contours"><code class="xref py py-attr docutils literal notranslate"><span class="pre">contours</span></code></a> property (Line 24).</p></li>
+<li><p>In this example, this nuclei in each dimension were determined from the
+<code class="docutils literal notranslate"><span class="pre">NUC1</span></code> parameters in <code class="docutils literal notranslate"><span class="pre">acqus</span></code> and <code class="docutils literal notranslate"><span class="pre">acqu2s</span></code>. These are denoted as
+<code class="docutils literal notranslate"><span class="pre">&lt;{number}{symbol}&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">number</span></code> is the isotope mass number, and
+<code class="docutils literal notranslate"><span class="pre">symbol</span></code> is the element symbol. The <code class="docutils literal notranslate"><span class="pre">format_nucleus</span></code> function is then
+used to extract the isotope mass and symbol using a
+<a class="reference external" href="https://docs.python.org/3/howto/regex.html">regular expression</a>, leading
+to nicely-formatted axis labels.</p></li>
+</ul>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">re</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">bruker_utils</span> <span class="kn">import</span> <span class="n">BrukerDataset</span>
+<span class="linenos"> 3</span><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="linenos"> 4</span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">def</span> <span class="nf">format_nucleus</span><span class="p">(</span><span class="n">nucleus</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="linenos"> 8</span>    <span class="sd">&quot;&quot;&quot;Format nucleus for matplotlib.&quot;&quot;&quot;</span>
+<span class="linenos"> 9</span>    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^&lt;(\d+)([A-Z]+)&gt;$&#39;</span><span class="p">,</span> <span class="n">nucleus</span><span class="p">)</span>
+<span class="linenos">10</span>    <span class="n">number</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">symbol</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos">12</span>    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;$^</span><span class="se">{{</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="se">}}</span><span class="s1">$</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="c1"># Make font smaller</span>
+<span class="linenos">16</span><span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+<span class="linenos">17</span><span class="n">mpl</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">font</span><span class="p">)</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="c1"># Extract spectrum, chemical shifts, and contour levels</span>
+<span class="linenos">20</span><span class="c1"># from the dataset</span>
+<span class="linenos">21</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/2/pdata/1&#39;</span><span class="p">)</span>
+<span class="linenos">22</span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">data</span>
+<span class="linenos">23</span><span class="n">shifts</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_samples</span><span class="p">()</span>
+<span class="linenos">24</span><span class="n">levels</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">contours</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="c1"># Create a figure and axes</span>
+<span class="linenos">27</span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="linenos">28</span><span class="c1"># list elements are figure co-ordinates for:</span>
+<span class="linenos">29</span><span class="c1"># [left, bottom, width, height]</span>
+<span class="linenos">30</span><span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.83</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">])</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="c1"># Make a contour plot of the spectrum</span>
+<span class="linenos">33</span><span class="n">contour</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="o">*</span><span class="n">shifts</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+<span class="linenos">34</span>                     <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="c1"># Set x- and y-limit to select the region of interest.</span>
+<span class="linenos">37</span><span class="c1"># Note that in each case the order of arguments is (high, low)</span>
+<span class="linenos">38</span><span class="c1"># to ensure the axes are flipped.</span>
+<span class="linenos">39</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">30.39</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">)</span>
+<span class="linenos">40</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">2.546</span><span class="p">,</span> <span class="mf">0.541</span><span class="p">)</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="n">x</span> <span class="o">/</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">)])</span>
+<span class="linenos">43</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="n">x</span> <span class="o">/</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)])</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># Labels for axes.</span>
+<span class="linenos">47</span><span class="c1"># This snippet shows how it can be done in an automated fashion</span>
+<span class="linenos">48</span><span class="c1"># by extracting the `NUC1` parameter from each acquisition file.</span>
+<span class="linenos">49</span><span class="c1"># Also see `format_nucleus` above.</span>
+<span class="linenos">50</span><span class="n">params</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;acqus&#39;</span><span class="p">,</span> <span class="s1">&#39;acqu2s&#39;</span><span class="p">])</span>
+<span class="linenos">51</span><span class="n">xnuc</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;acqus&#39;</span><span class="p">][</span><span class="s1">&#39;NUC1&#39;</span><span class="p">]</span>
+<span class="linenos">52</span><span class="n">ynuc</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;acqu2s&#39;</span><span class="p">][</span><span class="s1">&#39;NUC1&#39;</span><span class="p">]</span>
+<span class="linenos">53</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">format_nucleus</span><span class="p">(</span><span class="n">xnuc</span><span class="p">)</span><span class="si">}</span><span class="s1"> (ppm)&#39;</span><span class="p">)</span>
+<span class="linenos">54</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">format_nucleus</span><span class="p">(</span><span class="n">ynuc</span><span class="p">)</span><span class="si">}</span><span class="s1"> (ppm)&#39;</span><span class="p">)</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="c1"># Save the figure to your preferred format</span>
+<span class="linenos">57</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;spectrum_2d.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/spectrum_2d.png" src="../_images/spectrum_2d.png" />
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">bruker_utils</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using bruker_utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-brukerdataset-class">The <code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importing-a-dataset">Importing a dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#directory-requirements">Directory requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-parameters">Accessing Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-the-data">Accessing the Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-chemical-shifts-timepoints">Accessing Chemical Shifts/Timepoints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advice-for-plotting-data">Advice for Plotting Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#d-example">1D Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">2D Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="reference.html" title="next chapter">Reference</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Simon Hulse.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/content/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
