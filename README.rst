@@ -10,3 +10,5 @@
 
 This package provides a number of features to make handling Bruker NMR data
 in Python straightforward.
+
+Documentation: https://5hulse.github.io/bruker_utils/
