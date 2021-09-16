@@ -230,7 +230,7 @@ class BrukerDataset:
         info = self._determine_experiment_type(directory)
         if info is None:
             raise ValueError(
-                '{directory} does not possess the requisite files.'
+                f'{directory} does not possess the requisite files.'
             )
 
         self._dim, self._dtype, files = \
