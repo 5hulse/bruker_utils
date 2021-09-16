@@ -17,3 +17,4 @@ to dive deeper, check out the :ref:`reference<Reference>`, or the
     content/installation
     content/usage
     content/reference
+    content/changelog
