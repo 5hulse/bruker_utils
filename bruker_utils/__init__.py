@@ -1,3 +1,8 @@
+# __init__.py
+# Simon Hulse
+# simonhulse@protonmail.com
+# Last Edited: Tue 23 Apr 2024 13:31:18 EDT
+
 import functools
 from pathlib import Path
 import re
@@ -717,9 +722,10 @@ class BrukerDataset:
                   'returned')
             return None
 
-        levels = \
+        levels = sorted(
             [float(x) for x in parse_jcampdx(clevels)['LEVELS']
              if x not in ['', '0']]
+        )
         return levels
 
         # I originally had this, but scaling seemed to be an issue...
