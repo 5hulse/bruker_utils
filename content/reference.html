@@ -1,26 +1,25 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Reference &#8212; bruker_utils  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Using bruker_utils" href="usage.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -33,26 +32,26 @@
           <div class="body" role="main">
             
   <section id="reference">
-<h1>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h1>
+<h1>Reference<a class="headerlink" href="#reference" title="Link to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bruker_utils.parse_jcampdx">
-<span class="sig-prename descclassname"><span class="pre">bruker_utils.</span></span><span class="sig-name descname"><span class="pre">parse_jcampdx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_numerical_values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#bruker_utils.parse_jcampdx" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bruker_utils.</span></span><span class="sig-name descname"><span class="pre">parse_jcampdx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_numerical_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#bruker_utils.parse_jcampdx" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieve parameters from files written in JCAMP-DX format.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> – The path to the parameter file.</p></li>
 <li><p><strong>convert_numerical_values</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, all values which can be converted to numerical objects
 (<code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">float</span></code>) will be converted from <code class="docutils literal notranslate"><span class="pre">str</span></code>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>params</strong> – Parameters in the file.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">path</span></code> does not exist in the filesystem.</p>
 </dd>
 </dl>
@@ -124,10 +123,10 @@ values are stored in a list:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">bruker_utils.</span></span><span class="sig-name descname"><span class="pre">BrukerDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bruker_utils.BrukerDataset" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bruker_utils.</span></span><span class="sig-name descname"><span class="pre">BrukerDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bruker_utils.BrukerDataset" title="Link to this definition">¶</a></dt>
 <dd><p>Represenation of a Bruker Dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> – <p>Path to the directory containing the data.</p>
 <p>Different files are expected to exist, dependent on the data type you
 are importing (note that <code class="docutils literal notranslate"><span class="pre">..</span></code> denotes the parent directory of the
@@ -196,7 +195,7 @@ preceeding directory):</p>
 </ul>
 </p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>IOError</strong> – If <code class="docutils literal notranslate"><span class="pre">directory</span></code> doesn’t exist.</p></li>
 <li><p><strong>ValueError</strong> – If <code class="docutils literal notranslate"><span class="pre">directory</span></code> does not contain the files expected of a
@@ -206,16 +205,16 @@ preceeding directory):</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._all_paths_exist">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_all_paths_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._all_paths_exist" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_all_paths_exist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._all_paths_exist" title="Link to this definition">¶</a></dt>
 <dd><p>Determine if all the paths in <code class="docutils literal notranslate"><span class="pre">files</span></code> exist.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>files</strong> – File paths to check.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>allexist</strong> – <code class="docutils literal notranslate"><span class="pre">True</span></code> is all paths exist, <code class="docutils literal notranslate"><span class="pre">False</span></code> if not.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
@@ -223,14 +222,14 @@ preceeding directory):</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._compile_experiment_options">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_compile_experiment_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._compile_experiment_options" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_compile_experiment_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._compile_experiment_options" title="Link to this definition">¶</a></dt>
 <dd><p>Generate information dictionaries for different experiment types.</p>
 <p>Compiles dictionaries of information relavent to each experiment type.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> – Path to the directory of interest.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p><strong>options</strong> – Infomation relating to each experiment option. Each item
 is a dictionary with the following entires:</p>
 <ul class="simple">
@@ -240,7 +239,7 @@ is a dictionary with the following entires:</p>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List[dict]</p>
 </dd>
 </dl>
@@ -248,13 +247,13 @@ is a dictionary with the following entires:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._complexify">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_complexify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._complexify" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_complexify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._complexify" title="Link to this definition">¶</a></dt>
 <dd><p>Make time-domain data complex.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> – Data to be converted to complex form.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p><strong>complex_data</strong> – Complex data.</p>
 <p>Complex data is stored in the form
 <code class="docutils literal notranslate"><span class="pre">[re[0],</span> <span class="pre">im[0],</span> <span class="pre">re[1],</span> <span class="pre">im[1],</span> <span class="pre">...]</span></code>, This function takes an
@@ -262,7 +261,7 @@ input with shape <code class="docutils literal notranslate"><span class="pre">(2
 <code class="docutils literal notranslate"><span class="pre">[re[0]</span> <span class="pre">+</span> <span class="pre">im[0]j,</span> <span class="pre">re[1]</span> <span class="pre">+</span> <span class="pre">im[1]j,</span> <span class="pre">...]</span></code> with shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code>.</p>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -270,7 +269,7 @@ input with shape <code class="docutils literal notranslate"><span class="pre">(2
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._determine_experiment_type">
-<span class="sig-name descname"><span class="pre">_determine_experiment_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._determine_experiment_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_determine_experiment_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._determine_experiment_type" title="Link to this definition">¶</a></dt>
 <dd><p>Determine the type of Bruker data stored in <code class="docutils literal notranslate"><span class="pre">directory</span></code>.</p>
 <p>This function is used to determine:</p>
 <ol class="loweralpha simple">
@@ -281,10 +280,10 @@ input with shape <code class="docutils literal notranslate"><span class="pre">(2
 experiment type, a dictionary of information will be returned.
 Otherwise, <code class="docutils literal notranslate"><span class="pre">None</span></code> will be returned.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>directory</strong> – The path to the directory of interest.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p><strong>exptype</strong> – Dictionary with the entries:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">'dim'</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) The dimension of the data.</p></li>
@@ -295,7 +294,7 @@ files.</p></li>
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Union[dict, None]</p>
 </dd>
 </dl>
@@ -303,7 +302,7 @@ files.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._remove_zeros">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_remove_zeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._remove_zeros" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_remove_zeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._remove_zeros" title="Link to this definition">¶</a></dt>
 <dd><p>Strip zeros from data.</p>
 <p>Bruker ensures that each stored FID takes up a multiple of 1024 bytes
 of storage, even if <code class="docutils literal notranslate"><span class="pre">TD</span></code> is not a multiple of 256 (each datapoint
@@ -311,7 +310,7 @@ takes either 4 or 8 bytes of space). To do this, each FID is padded
 with zeros. This function determines the number of trailing zeros
 and removes them.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – Data to be treated. This should be a one-dimensional array with
 the number of elements matching the product of the elements in
@@ -319,10 +318,10 @@ the number of elements matching the product of the elements in
 <li><p><strong>shape</strong> – The expected shape of the data.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>zeroless_data</strong> – Data with padded zeros removed.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -330,7 +329,7 @@ the number of elements matching the product of the elements in
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset._repartition_data">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">_repartition_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">si</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._repartition_data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_repartition_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">si</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset._repartition_data" title="Link to this definition">¶</a></dt>
 <dd><p>Correctly reorganise partitioned data.</p>
 <p>Some data (typically older data) is stored in <cite>sub-matrix</cite> format,
 such that chucnks of the data are partitioned into smaller blocks.
@@ -338,7 +337,7 @@ The <code class="docutils literal notranslate"><span class="pre">XDIM</span></co
 each partition. This function takes in partitioned data and
 re-arranges it to the correct order.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – Data to be repartitioned. This should be a one-dimensional array
 with the number of elements matching the product of the elements
@@ -347,10 +346,10 @@ in <code class="docutils literal notranslate"><span class="pre">shape</span></co
 <li><p><strong>xdim</strong> – The size of partitions in each dimension.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>repartitioned_data</strong> – Correctly repartitioned data.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
 </dd>
 </dl>
@@ -358,7 +357,7 @@ in <code class="docutils literal notranslate"><span class="pre">shape</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.binary_format">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">binary_format</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.binary_format" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">binary_format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.binary_format" title="Link to this definition">¶</a></dt>
 <dd><p>Return the format of the binary datafiles.</p>
 <p>Four possibilities:</p>
 <ul class="simple">
@@ -371,7 +370,7 @@ in <code class="docutils literal notranslate"><span class="pre">shape</span></co
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.contours">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">contours</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.contours" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contours</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.contours" title="Link to this definition">¶</a></dt>
 <dd><p>Return a stored list of contour levels.</p>
 <p>For multidimensional processed datasets, the file <code class="docutils literal notranslate"><span class="pre">clevels</span></code> is
 searched for, and if found, the contour levels stated in it are
@@ -380,46 +379,46 @@ returned. If <code class="docutils literal notranslate"><span class="pre">clevel
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.data">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.data" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.data" title="Link to this definition">¶</a></dt>
 <dd><p>Return the data.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.dim">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dim</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.dim" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.dim" title="Link to this definition">¶</a></dt>
 <dd><p>The number of experiment dimensions.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.directory">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">directory</span></span><em class="property"><span class="pre">:</span> <span class="pre">pathlib.Path</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.directory" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">directory</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Path</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.directory" title="Link to this definition">¶</a></dt>
 <dd><p>Return the full path to the data directory.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.dtype">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.dtype" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.dtype" title="Link to this definition">¶</a></dt>
 <dd><p>Return the type of data.</p>
 <p>Will be either <code class="docutils literal notranslate"><span class="pre">'fid'</span></code> or <code class="docutils literal notranslate"><span class="pre">'pdata'</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.get_parameters">
-<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset.get_parameters" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset.get_parameters" title="Link to this definition">¶</a></dt>
 <dd><p>Return parameters found in <code class="docutils literal notranslate"><span class="pre">filenames</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filenames</strong> – Files to extract parameters from. If this is set to <code class="docutils literal notranslate"><span class="pre">None</span></code>,
 all valid files will be read.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>params</strong> – A dictionary containing the parameters of each file in
 sub-dictionaries.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – If <code class="docutils literal notranslate"><span class="pre">filenames</span></code> has an invalid type. It should be <code class="docutils literal notranslate"><span class="pre">None</span></code>, a
     <code class="docutils literal notranslate"><span class="pre">str</span></code>, or an iterable object (<code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span></code>,
@@ -442,13 +441,13 @@ use <a class="reference internal" href="#bruker_utils.BrukerDataset.valid_parame
 
 <dl class="py method">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.get_samples">
-<span class="sig-name descname"><span class="pre">get_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdata_unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'ppm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshgrid</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset.get_samples" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdata_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ppm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshgrid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bruker_utils.BrukerDataset.get_samples" title="Link to this definition">¶</a></dt>
 <dd><p>Return the points at which the data is sampled.</p>
 <p>For time-domain data, this will return the timepoints at which the
 FID was sampeld. For processed data, this will return the chemical
 shifts.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pdata_unit</strong> – The unit to expressed the chemical shifts if, if the dataset
 corresponds to processed data. Valid options are <code class="docutils literal notranslate"><span class="pre">'ppm'</span></code> or
@@ -458,10 +457,10 @@ arrayed using
 <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html">numpy.meshgrid</a>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>samples</strong> – The samples in each dimension.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Iterable[np.ndarray]</p>
 </dd>
 </dl>
@@ -474,7 +473,7 @@ making the output very convienient for plotting pourposes.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="bruker_utils.BrukerDataset.valid_parameter_filenames">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">valid_parameter_filenames</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.valid_parameter_filenames" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">valid_parameter_filenames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bruker_utils.BrukerDataset.valid_parameter_filenames" title="Link to this definition">¶</a></dt>
 <dd><p>Return a list of parameter filenames.</p>
 <p>The elements are a complete set of the valid strings for the
 <code class="docutils literal notranslate"><span class="pre">filenames</span></code> argument in <a class="reference internal" href="#bruker_utils.BrukerDataset.get_parameters" title="bruker_utils.BrukerDataset.get_parameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_parameters()</span></code></a>.</p>
@@ -504,7 +503,28 @@ making the output very convienient for plotting pourposes.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Using bruker_utils</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bruker_utils.parse_jcampdx"><code class="docutils literal notranslate"><span class="pre">parse_jcampdx()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bruker_utils.BrukerDataset"><code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._all_paths_exist"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._all_paths_exist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._compile_experiment_options"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._compile_experiment_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._complexify"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._complexify()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._determine_experiment_type"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._determine_experiment_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._remove_zeros"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._remove_zeros()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset._repartition_data"><code class="docutils literal notranslate"><span class="pre">BrukerDataset._repartition_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.binary_format"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.binary_format</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.contours"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.contours</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.data"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.dim"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.dim</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.directory"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.directory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.dtype"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.dtype</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.get_parameters"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.get_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.get_samples"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.get_samples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bruker_utils.BrukerDataset.valid_parameter_filenames"><code class="docutils literal notranslate"><span class="pre">BrukerDataset.valid_parameter_filenames</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
@@ -515,7 +535,7 @@ making the output very convienient for plotting pourposes.</p>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -523,8 +543,8 @@ making the output very convienient for plotting pourposes.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -538,11 +558,11 @@ making the output very convienient for plotting pourposes.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Simon Hulse.
+      &#169;2021, Simon Hulse.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../_sources/content/reference.rst.txt"

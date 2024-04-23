@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Using bruker_utils &#8212; bruker_utils  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Reference" href="reference.html" />
@@ -20,8 +18,9 @@
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -34,14 +33,14 @@
           <div class="body" role="main">
             
   <section id="using-bruker-utils">
-<h1>Using bruker_utils<a class="headerlink" href="#using-bruker-utils" title="Permalink to this headline">¶</a></h1>
+<h1>Using bruker_utils<a class="headerlink" href="#using-bruker-utils" title="Link to this heading">¶</a></h1>
 <p>The purpose of bruker_utils is to make it convienient to work with Bruker NMR
 data with Python. On this page is an outline of how to use the available
 features.</p>
 <section id="the-brukerdataset-class">
-<h2>The <code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> class<a class="headerlink" href="#the-brukerdataset-class" title="Permalink to this headline">¶</a></h2>
+<h2>The <code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> class<a class="headerlink" href="#the-brukerdataset-class" title="Link to this heading">¶</a></h2>
 <section id="importing-a-dataset">
-<h3>Importing a dataset<a class="headerlink" href="#importing-a-dataset" title="Permalink to this headline">¶</a></h3>
+<h3>Importing a dataset<a class="headerlink" href="#importing-a-dataset" title="Link to this heading">¶</a></h3>
 <p>To import a dataset, you can do the following:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bruker_utils</span> <span class="kn">import</span> <span class="n">BrukerDataset</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">BrukerDataset</span><span class="p">(</span><span class="s1">&#39;data/1&#39;</span><span class="p">)</span>
@@ -63,7 +62,7 @@ names of associated parameter files.</p>
 the spectrometer), or processed spectral data.</p>
 </section>
 <section id="directory-requirements">
-<h3>Directory requirements<a class="headerlink" href="#directory-requirements" title="Permalink to this headline">¶</a></h3>
+<h3>Directory requirements<a class="headerlink" href="#directory-requirements" title="Link to this heading">¶</a></h3>
 <p>If you wish to work with the time-domain data, the path you supply to
 <code class="docutils literal notranslate"><span class="pre">BrukerDataset</span></code> should contain the raw data file. This file will be called
 either <code class="docutils literal notranslate"><span class="pre">fid</span></code> or <code class="docutils literal notranslate"><span class="pre">ser</span></code>, depending on the number of dimensions in your
@@ -119,7 +118,7 @@ We can therefore import it as follows:</p>
 </div>
 </section>
 <section id="accessing-parameters">
-<h3>Accessing Parameters<a class="headerlink" href="#accessing-parameters" title="Permalink to this headline">¶</a></h3>
+<h3>Accessing Parameters<a class="headerlink" href="#accessing-parameters" title="Link to this heading">¶</a></h3>
 <p><cite>I am working with a 1D processed dataset in the following section.</cite></p>
 <p>Parameters can be parsed from <code class="docutils literal notranslate"><span class="pre">acqus</span></code> and <code class="docutils literal notranslate"><span class="pre">procs</span></code> files using the
 <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_parameters" title="bruker_utils.BrukerDataset.get_parameters"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_parameters()</span></code></a> method. A dictionary
@@ -183,7 +182,7 @@ are interesed in parameters from a particular file, you can you the
 </div>
 </section>
 <section id="accessing-the-data">
-<h3>Accessing the Data<a class="headerlink" href="#accessing-the-data" title="Permalink to this headline">¶</a></h3>
+<h3>Accessing the Data<a class="headerlink" href="#accessing-the-data" title="Link to this heading">¶</a></h3>
 <p><cite>I am working with a 1D processed dataset in the following section.</cite></p>
 <p>The data can be obtained in <a class="reference external" href="https:\numpy.org">NumPy</a> format, using
 the <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.data" title="bruker_utils.BrukerDataset.data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">data</span></code></a> property:</p>
@@ -199,7 +198,7 @@ the <a class="reference internal" href="reference.html#bruker_utils.BrukerDatase
 <img alt="../_images/simple_spectrum.png" src="../_images/simple_spectrum.png" />
 </section>
 <section id="accessing-chemical-shifts-timepoints">
-<h3>Accessing Chemical Shifts/Timepoints<a class="headerlink" href="#accessing-chemical-shifts-timepoints" title="Permalink to this headline">¶</a></h3>
+<h3>Accessing Chemical Shifts/Timepoints<a class="headerlink" href="#accessing-chemical-shifts-timepoints" title="Link to this heading">¶</a></h3>
 <p>To obtain chemical shifts for processed data, or timepoints for time-domain
 data, use the <a class="reference internal" href="reference.html#bruker_utils.BrukerDataset.get_samples" title="bruker_utils.BrukerDataset.get_samples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_samples()</span></code></a> method:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">bruker_utils</span> <span class="k">as</span> <span class="nn">butils</span>
@@ -239,14 +238,14 @@ signals. <strong>Note that by default this is set to</strong> <code class="docut
 </section>
 </section>
 <section id="advice-for-plotting-data">
-<h2>Advice for Plotting Data<a class="headerlink" href="#advice-for-plotting-data" title="Permalink to this headline">¶</a></h2>
+<h2>Advice for Plotting Data<a class="headerlink" href="#advice-for-plotting-data" title="Link to this heading">¶</a></h2>
 <p>Plotting nice figures of NMR data is very simple with the help of
 bruker_utils, if you are familiar with <a class="reference external" href="https:\matplotlib.org">matplotlib</a>.
 Below are some examples for inspiration.</p>
 <p><cite>You will have to install matplotlib separately for these examples.
 Running</cite> <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">matplotlib</span></code> <cite>should suffice.</cite></p>
 <section id="d-example">
-<h3>1D Example<a class="headerlink" href="#d-example" title="Permalink to this headline">¶</a></h3>
+<h3>1D Example<a class="headerlink" href="#d-example" title="Link to this heading">¶</a></h3>
 <p>Lets write a script which will import 1D processed data, and plot it against
 its chemical shifts. Key features to note in this script are:</p>
 <ul class="simple">
@@ -298,7 +297,7 @@ to high from left to right, we need to manually reverse the axis limits
 <img alt="../_images/spectrum_1d.png" src="../_images/spectrum_1d.png" />
 </section>
 <section id="id1">
-<h3>2D Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>2D Example<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>Now for an example of a contour for a two-dimensional experiment. Key features
 here:</p>
 <ul class="simple">
@@ -325,7 +324,7 @@ to nicely-formatted axis labels.</p></li>
 <span class="linenos"> 5</span>
 <span class="linenos"> 6</span>
 <span class="linenos"> 7</span><span class="k">def</span> <span class="nf">format_nucleus</span><span class="p">(</span><span class="n">nucleus</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="linenos"> 8</span>    <span class="sd">&quot;&quot;&quot;Format nucleus for matplotlib.&quot;&quot;&quot;</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Format nucleus for matplotlib.&quot;&quot;&quot;</span>
 <span class="linenos"> 9</span>    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^&lt;(\d+)([A-Z]+)&gt;$&#39;</span><span class="p">,</span> <span class="n">nucleus</span><span class="p">)</span>
 <span class="linenos">10</span>    <span class="n">number</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="linenos">11</span>    <span class="n">symbol</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -429,7 +428,7 @@ to nicely-formatted axis labels.</p></li>
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -437,8 +436,8 @@ to nicely-formatted axis labels.</p></li>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -452,11 +451,11 @@ to nicely-formatted axis labels.</p></li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Simon Hulse.
+      &#169;2021, Simon Hulse.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.3.7</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../_sources/content/usage.rst.txt"
