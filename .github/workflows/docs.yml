@@ -1,4 +1,4 @@
-name: docs 
+name: docs
 
 on:
   push:
@@ -15,10 +15,10 @@ jobs:
           ref: main
           path: main
 
-      - name: Set up python3.6 
-        uses: actions/setup-python@v2
+      - name: Set up python
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.6 
+          python-version: '3.10'
 
       - name: install dependencies
         run: |
@@ -37,8 +37,8 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-      
-      - name: Update gh-pages 
+
+      - name: Update gh-pages
         run: |
           cd gh-pages
           cp -r ../main/docs/html/* .
